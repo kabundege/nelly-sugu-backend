@@ -21,9 +21,15 @@ app.get('/photos/:id', async (req,res) =>{
         
         const { id } = req.params;
         
-        const data = await fetch(`https://jsonplaceholder.typicode.com/albums/${id}/photos`)
+        const response = await fetch(`https://jsonplaceholder.typicode.com/albums/${id}/photos`)
                     .then(res => res.json());
-                    
+        
+        // filtering the respone to send only a photos title and the thumbnailUrl
+        const data = response.map( one =>  ({
+            title: one.title,
+            thumbnailUrl : one.thumbnailUrl,
+        }))
+
         res.status(200).json({
             status:200,
             message:"Fetch Success",
